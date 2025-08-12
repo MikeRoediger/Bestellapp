@@ -139,9 +139,7 @@ footer a:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 30%;
-  padding-bottom: 16px;
-  gap: 16px;
+  width: 1440px;
 }
 
 .footer-content p {
@@ -168,7 +166,7 @@ footer a:hover {
 
 @media(max-width: 650px) {
   .footer-content {
-    width: 60%;
+    flex-direction: column;
   }
 }
 
