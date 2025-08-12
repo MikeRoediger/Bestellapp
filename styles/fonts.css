@@ -1,0 +1,16 @@
+@font-face {
+    font-family:'Bevan';
+    src: url(../assets/fonts/Bevan-Regular.ttf);
+
+    
+}
+
+@font-face {
+    font-family: 'RubikDirt';
+    src: url(../assets/fonts/RubikDirt-Regular.ttf);
+}
+
+@font-face {
+    font-family: 'GravitasOne';
+    src: url(../assets/fonts/GravitasOne-Regular.ttf);
+}

@@ -1,0 +1,199 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  scroll-behavior: smooth;
+  color: white;
+  
+}
+
+.d-none {
+  display: none !important;
+}
+
+body {
+  position: relative;
+}
+
+h1 {
+  font-family: 'Bevan', sans-serif;
+  font-weight:200;
+  font-size: 40px;
+  color: white;
+  text-shadow: 2px 2px #801102;
+}
+
+h2 {
+   font-family: 'Bevan', sans-serif;
+   font-weight: 100;
+  padding: 16px 0;
+  font-size: 32px;
+  color: white;
+  text-shadow: 2px 2px #801102;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  background: radial-gradient(circle, #801102, #801102, #801102, #270701);
+  height: 60px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1440px;
+  padding: 0 8px;
+}
+
+.logo-text {
+  display: flex;
+  width: 10%;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo-text img {
+  height: 50px;
+}
+
+.logo-text p {
+  font-size: 24px;
+  font-weight: 800;
+
+}
+
+.hero1 {
+  background-image: url(../assets/img/fire-1680614_640.jpg);
+  background-position: center 55%;
+  background-size: cover;
+  width: 100%;
+  max-width: 1440px;
+  height: 350px;
+}
+
+.hero2 {
+  background-image: url(../assets/img/kohle_2704657_1280.jpg);
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  height: 250px;
+}
+
+.logo {
+  height: 70px;
+  width: 70px;
+}
+
+.close-btn {
+  display: none;
+  height: 50px;
+  width: 50px;
+  border-radius: 16px;
+}
+
+/* Styiling the main content */
+
+main {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  padding-bottom: 65px;
+  background-color: black;
+}
+
+.main-content {
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1440px;
+  padding: 20px 8px;
+  position: relative;
+}
+
+
+footer {
+  font-family: 'RubikDirt';
+  font-weight: 100;
+  background: radial-gradient(circle, #801102, #801102, #801102, #270701);
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  height: 65px;
+  position: absolute;
+  bottom: 0;
+}
+
+footer a:hover {
+  
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-color: rgb(209, 56, 0);
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 30%;
+  padding-bottom: 16px;
+  gap: 16px;
+}
+
+.footer-content p {
+  color: white;
+  font-size: 18px;
+}
+
+.impressum {
+  font-family: sans-serif;
+  min-height: 100vh;
+  width: 100%;
+  text-align: center;
+  margin: auto;
+  max-width: 1920px;
+  padding: 180px 180px;
+}
+
+.impressum a:hover {
+  
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-color: rgb(209, 56, 0);
+}
+
+@media(max-width: 650px) {
+  .footer-content {
+    width: 60%;
+  }
+
+}
+
+@media(max-width: 460px) {
+  .footer-content {
+    width: 70%;
+  }
+
+  .food-selection {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  footer {
+    flex-direction: column;
+    align-items: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    height: 80px;
+  }
+}
+
