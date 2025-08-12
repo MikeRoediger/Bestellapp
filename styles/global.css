@@ -3,7 +3,6 @@
   margin: 0;
   scroll-behavior: smooth;
   color: white;
-  
 }
 
 .d-none {
@@ -67,7 +66,6 @@ header {
 .logo-text p {
   font-size: 24px;
   font-weight: 800;
-
 }
 
 .hero1 {
@@ -99,8 +97,6 @@ header {
   border-radius: 16px;
 }
 
-/* Styiling the main content */
-
 main {
   display: flex;
   justify-content: center;
@@ -118,7 +114,6 @@ main {
   padding: 20px 8px;
   position: relative;
 }
-
 
 footer {
   font-family: 'RubikDirt';
@@ -175,7 +170,6 @@ footer a:hover {
   .footer-content {
     width: 60%;
   }
-
 }
 
 @media(max-width: 460px) {

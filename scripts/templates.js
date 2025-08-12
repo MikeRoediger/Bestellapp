@@ -1,4 +1,3 @@
-// I. Function for dishes in the browser
 function getDishesTemplate(dish, index, category) {
     return `
             <div id="dish_container_${category}_${index}" class="dish-container">
@@ -20,9 +19,6 @@ function getDishesTemplate(dish, index, category) {
                 alt="Einkaufswagen">
             </div>`;
 }
-
-// II. Functions for dishes in the baskets (browser and mobile)
-// 2.1.Templates
 
 function getDesktopBasketDishesTemplate(basketIndex){
     let dish = basketDishes[basketIndex];
@@ -56,7 +52,6 @@ function getMobileBasketDishesTemplate(basketIndex){
     `;
 }
 
-// 2.2.Total-amount-section
 function getBasketTotal(subtotalValue, totalAmount){
     return `<div id='separation_bar' class="separation-bar"></div>
             <table id='amount_table' class='total-amount-table'>
@@ -75,8 +70,6 @@ function getBasketTotal(subtotalValue, totalAmount){
             </table>`;
 }
 
-// 2.3.Placeholders for empty baskets (desktop + mobile)
-
 function getDesktopPlaceholder(){
     return `<div id="basket_placeholder" class="order-placeholder">
               <p>Wähle Deine Gerichte aus der Karte und stelle Dir Dein Menü zusammen.</p>
@@ -90,8 +83,6 @@ function getMobilePlaceholder(){
               <img class="empty-bag" src="./assets/img/empty-bag.png" alt="Eine leere Einkaufstasche">
             </div>`;
 }
-
-// 2.4. Notification message for order placement
 
 function notificationTemplate(){
     return `<p class='user-notification'>Ihre Bestellung wurde aufgegeben!<br><br>Guten Appetit!</p><br>

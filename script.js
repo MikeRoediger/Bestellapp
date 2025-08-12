@@ -1,11 +1,8 @@
-// Hilfsfunktion zur einheitlichen Preisformatierung
 function formatPrice(value) {
     let number = parseFloat(value);
     if (isNaN(number)) number = 0;
     return number.toFixed(2).replace('.', ',');
 }
-
-// Rendering functions for browser and basket contents
 
 function renderDishes() {
     let container = document.getElementById('dishes_container');
@@ -45,10 +42,9 @@ function renderBasketDishesPC(suppressPlaceholder  = false){
     for(let basketIndex = 0; basketIndex < basketDishes.length; basketIndex++){
         desktopContainer.innerHTML += getDesktopBasketDishesTemplate(basketIndex);
     }
-
     if(basketDishes.length > 0){
         let subtotalValue = calculateSubtotal();
-        // subtotalValue ist schon formatiert mit Komma, daher als Zahl für Addition umwandeln:
+
         let subtotalNumber = parseFloat(subtotalValue.replace(',', '.')) || 0;
         desktopContainer.innerHTML += getBasketTotal(subtotalValue, formatPrice(subtotalNumber + 5));
     } else if(!suppressPlaceholder){
@@ -85,8 +81,6 @@ function saveToLocalStorage(basketItem){
     basketDishes = basketItem;
 }
 
-//Functions to move/remove elements
-
 function moveDishesToBasket(category, index){
     let selectedDish = {...dishes[category][index]};
     let savedSelectedDish = getFromLocalStorage();
@@ -94,8 +88,8 @@ function moveDishesToBasket(category, index){
 
     if(basketIndex === -1){
         selectedDish.quantity = 1;
-        selectedDish.totalPrice = parseFloat(selectedDish.price); // Speichere als Zahl
-        selectedDish.dishAmount = 1; // Sicherstellen, dass dishAmount existiert
+        selectedDish.totalPrice = parseFloat(selectedDish.price);
+        selectedDish.dishAmount = 1;
         savedSelectedDish.push(selectedDish);
         localStorage.setItem('selectedDishes', JSON.stringify(savedSelectedDish));
     } else {
@@ -118,8 +112,6 @@ function removeDish(basketIndex){
     } 
     renderBasketDishes();
 }
-
-//Functions to add and subtract number of dishes
 
 function addDishAmount(basketIndex){
     if(window.innerWidth < 650){
@@ -222,8 +214,6 @@ function calculateTotalPrice(price, quantity = 1){
     return formatPrice(total);
 }
 
-//Notification functions
-
 function sendUserNotificationPC(){
    let selectedDishes = getFromLocalStorage();
    let desktopContainer = document.getElementById('desktop_basket_container');
@@ -236,7 +226,6 @@ function sendUserNotificationPC(){
         renderBasketDishes(true);
         desktopContainer.innerHTML += notificationTemplate();
     }
-
 }
 
 function sendUserNotificationMobile(){

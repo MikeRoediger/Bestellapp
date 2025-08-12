@@ -1,11 +1,7 @@
-//Function to display the basket content even after reload
-
 window.addEventListener('DOMContentLoaded', function(){
     getFromLocalStorage();
     renderBasketDishes();
 });
-
-//Function to toggle the mobile basket
 
 document.getElementById('toggle_overlay_btn').addEventListener('click', function(){
     let mobileOverlay = document.getElementById('mobile_basket_overlay');
@@ -38,9 +34,6 @@ function toggleOverlay(){
     let mobileOverlay = document.getElementById('mobile_basket_overlay');
     mobileOverlay.classList.toggle('open');
 }
-
-
-//Function for contolling the overlay on window resize
 
 function closeOverlayOnResize(){
     let mobileOverlay = document.getElementById('mobile_basket_overlay');
