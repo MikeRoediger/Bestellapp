@@ -238,6 +238,7 @@
 }
 
 .mobile-basket-content {
+    font-family: sans-serif;
     width: 100%;
     padding: 8px;
     font-size: 18px;
@@ -334,6 +335,19 @@ tr {
 }
 
 @media(max-width: 750px) {
+    .basket h2 {
+        font-size: 16px;
+    }
+.basket-icons {
+        height: 10px;
+        width: 10px;
+    }
+    .basket-content {
+        font-size: 10px;
+    }
+}
+
+@media(max-width: 650px) {
     .basket {
         display: none;
     }

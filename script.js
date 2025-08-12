@@ -114,7 +114,7 @@ function removeDish(basketIndex){
 }
 
 function addDishAmount(basketIndex){
-    if(window.innerWidth < 650){
+    if(window.innerWidth < 750){
         addDishAmountPC(basketIndex);
     } else {
         addDishAmountMobile(basketIndex);
