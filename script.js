@@ -56,8 +56,7 @@ function addToBasket(category, indexDishes) {
     } else {
         basket.push({ name: dish.name, price: dish.price, amount: 1 });
     }
-    saveBasket();
-    refreshBasket();
+    saveBasket(); refreshBasket();
 }
 
 function decreaseAmount(indexDishes) {
@@ -67,21 +66,18 @@ function decreaseAmount(indexDishes) {
     if (basket[indexDishes].amount === 0) {
         basket.splice(indexDishes, 1);
     }
-    saveBasket();
-    refreshBasket();
+    saveBasket(); refreshBasket();
 }
 
 function increaseAmount(indexDishes) {
     if (!basket[indexDishes]) return;
     basket[indexDishes].amount = Number(basket[indexDishes].amount || 0) + 1;
-    saveBasket();
-    refreshBasket();
+    saveBasket(); refreshBasket();
 }
 
 function deleteDish(indexDishes) {
     basket.splice(indexDishes, 1);
-    saveBasket();
-    refreshBasket();
+    saveBasket(); refreshBasket();
 }
 
 function refreshBasket() {
@@ -96,10 +92,7 @@ function refreshBasket() {
             if (orderContainerDialogRef) orderContainerDialogRef.innerHTML += itemHTML;
         }
     }
-    updateCartCount();
-    subtotalCalc();
-    deliveryCalc();
-    totalCostCalc();
+    updateCartCount(); subtotalCalc(); deliveryCalc(); totalCostCalc();
 }
 
 function subtotalCalc() {
