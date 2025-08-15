@@ -1,86 +1,85 @@
-let dishes = {
-    "mainDishes": [
+const myDishes = {
+    'mainDish': [
         {
             "name": "Pulled Pork",
-            "description": "150g zartes Schweinefleisch",
             "price": 10.95,
-            "dishAmount": 1
+            "description": "150g zartes Schweinefleisch",
+            "amount": 0
         },
         {
             "name": "Pulled Beef",
-            "description": "150g zartes Rindfleisch",
             "price": 12.95,
-            "dishAmount": 1
+            "description": "150g zartes Rindfleisch",
+            "amount": 0
         },
         {
             "name": "Pulled Turkey",
-            "description": "150 g zartes Truthahnfleisch",
             "price": 9.95,
-            "dishAmount": 1
+            "description": "150 g zartes Truthahnfleisch",
+            "amount": 0
         },
         {
             "name": "Beefburger",
-            "description": "Mit Salat, Gurke, Tomate, Zwiebel und hausgemachter BBQ-Soße",
             "price": 11.95,
-            "dishAmount": 1
+            "description": "Mit Salat, Gurke, Tomate, Zwiebel und hausgemachter BBQ-Soße",
+            "amount": 0
         },
         {
             "name": "Chickenburger",
-            "description": "Mit Salat, Gurke, Tomate, Zwiebel und hausgemachter BBQ-Soße",
             "price": 9.95,
-            "dishAmount": 1
+            "description": "Mit Salat, Gurke, Tomate, Zwiebel und hausgemachter BBQ-Soße",
+            "amount": 0
         },
         {
             "name": "Grillgemüse",
-            "description": "Deftiges Gemüse der Saison",
             "price": 7.95,
-            "dishAmount": 1
+            "description": "Deftiges Gemüse der Saison",
+            "amount": 0
         },
         {
             "name": "Halloumi",
-            "description": "Würziger Grillkäse",
             "price": 8.95,
-            "dishAmount": 1
+            "description": "Würziger Grillkäse",
+            "amount": 0
         }
     ],
 
-    "sideDishes": [
+    'sideDish': [
         {
             "name": "Country Potatos",
-            "description": "Knusprige Kartoffelspalten",
             "price": 5.95,
-            "dishAmount": 1
+            "description": "Knusprige Kartoffelspalten",
+            "amount": 0
         },
         {
             "name": "Baked Potatoe",
-            "description": "Grillkartoffel mit Sour Cream",
             "price": 6.95,
-            "dishAmount": 1
+            "description": "Grillkartoffel mit Sour Cream",
+            "amount": 0
         },
         {
             "name": "Pommes",
-            "description": "Knusprige Kartoffelsticks",
             "price": 4.95,
-            "dishAmount": 1
+            "description": "Knusprige Kartoffelsticks",
+            "amount": 0
         }
     ],
-    "desserts": [
+    'dessertDish': [
         {
             "name": "Apple Pie",
-            "description": "Ein Stück Apfelkuchen aus dem Dutch Oven",
             "price": 4.95,
-            "dishAmount": 1
+            "description": "Ein Stück Apfelkuchen aus dem Dutch Oven",
+            "amount": 0
         },
         {
             "name": "Zimtschnecke",
-            "description": "Ein Stück Zimtschnecke aus dem Dutch Oven",
             "price": 4.95,
-            "dishAmount": 1
+            "description": "Ein Stück Zimtschnecke aus dem Dutch Oven",
+            "amount": 0
         }
     ]
 
 };
 
 
-
-
+let basket = []

@@ -1,0 +1,155 @@
+.basketContainer {
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    margin: 0 4px;
+}
+
+.costSection {
+    position: sticky;
+    bottom: 0;
+  background-color: black;
+    padding-bottom: 10px;
+}
+
+.basketTitle {
+    padding: 12px 0;
+    text-align: center;
+    font-size: 24px;
+    border-bottom: 1px solid #801102;
+}
+
+.orderCostContainer {
+    padding: 0 8px;
+
+}
+
+.line {
+    background-color: #801102;
+    height: 1px;
+}
+
+.costContainer {
+    color: white;
+    font-weight: 400;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 8px;
+}
+
+.costSubtotalContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.totalCostContainer {
+    padding-top: 8px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.orderContainer {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    max-height: calc(100vh - 362px);
+}
+
+.orderContainerStyle {
+    display: flex;
+    flex-direction: column;
+}
+
+.orderContainerAmountPrice {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.orderContainerAmount {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.orderContainerAmount p {
+    color: rgb(255, 128, 0);
+    font-size: 34px;
+    margin: 0 8px;
+    cursor: pointer;
+}
+
+.addButton {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 42px;
+    width: 42px;
+    color: white;
+    font-weight: 500;
+    font-size: 58px;
+    text-shadow: 2px 2px #801102;
+    background-color: black;
+    border: 1px solid #801102;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.addButton:hover {
+    background-color: rgba(201, 65, 65, 0.05);
+}
+
+.addButton:active {
+    transform: scale(0.98);
+}
+
+.amountButton {
+    background-color: black;
+    border: none;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+        text-shadow: 1px 1px #801102;
+}
+
+.amountButton:hover {
+    cursor: pointer;
+    transform: scale(1.5);
+}
+
+.orderButton {
+    width: 100%;
+    padding: 12px 0;
+    margin-top: 16px;
+    background-color: #801102;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+}
+
+.orderButton:hover {
+    cursor: pointer;
+    transform: scale(1.02);
+}
+
+.orderButton:active {
+    transform: scale(0.98);
+}
+
+.orderMessage {
+    width: 100%;
+    margin-top: 12px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.hidden {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}

@@ -1,243 +1,197 @@
-function formatPrice(value) {
-    let number = parseFloat(value);
-    if (isNaN(number)) number = 0;
-    return number.toFixed(2).replace('.', ',');
+// Konstanten für DOM-Elemente
+const orderContainerRef = document.getElementById("orderContainer");
+const orderContainerDialogRef = document.getElementById("orderContainerDialog");
+const subtotalRef = document.getElementById("subtotalCost");
+const subtotalOverlayRef = document.getElementById("subtotalCostOverlay");
+const deliveryRef = document.getElementById("deliveryCost");
+const deliveryOverlayRef = document.getElementById("deliveryCostOverlay");
+const totalCostRef = document.getElementById("totalCost");
+const totalCostOverlayRef = document.getElementById("totalCostOverlay");
+const switchBoxRef = document.getElementById("switchBox");
+const switchBoxOverlayRef = document.getElementById("switchBoxOverlay");
+const overlayRef = document.getElementById("overlay");
+const orderMessageRef = document.getElementById("orderMessage");
+const orderMessageOverlayRef = document.getElementById("orderMessageOverlay");
+const overlayCountRef = document.getElementById("cartCountOverlay");
+
+function loadBasket() {
+    const storedBasket = localStorage.getItem('basket');
+    if (storedBasket) {
+        basket = JSON.parse(storedBasket);
+    }
+}
+
+function saveBasket() {
+    localStorage.setItem('basket', JSON.stringify(basket));
+}
+
+function init() {
+    loadBasket();
+    renderDishes();
+    refreshBasket();
 }
 
 function renderDishes() {
-    let container = document.getElementById('dishes_container');
-    container.innerHTML = '';
-
-    for(let category in dishes){
-        container.innerHTML +=`<span id='${category}' class='category-name'>${formatCategoryName(category)}</span>`
-        let dishList = dishes[category];
-
-        for(let index = 0; index < dishList.length; index++){
-            let dish = dishList[index];
-            container.innerHTML += getDishesTemplate(dish, index, category);
+    for (let index = 0; index < Object.entries(myDishes).length; index++) {
+        let category = Object.entries(myDishes)[index][0];
+        let dishes = document.getElementById(category + "DishContent");
+        if (!dishes) continue;
+        dishes.innerHTML = "";
+        for (let indexDishes = 0; indexDishes < myDishes[category].length; indexDishes++) {
+            dishes.innerHTML += getDishes(category, indexDishes);
         }
     }
 }
 
-function formatCategoryName(category) {
-    let names = {
-        mainDishes: 'Hauptgerichte',
-        sideDishes:'Beilagen',
-        desserts: 'Nachspeisen'
+function addToBasket(category, indexDishes) {
+    const dish = myDishes[category][indexDishes];
+    let basketIndex = -1;
+    for (let i = 0; i < basket.length; i++) {
+        if (basket[i].name === dish.name) {
+            basketIndex = i;
+            break;
+        }
     }
-
-    return names[category] || category;
-}
-
-function renderBasketDishes(suppressPlaceholder = false){
-    renderBasketDishesPC(suppressPlaceholder);
-    renderBasketDishesMobile(suppressPlaceholder);
-}
-
-function renderBasketDishesPC(suppressPlaceholder  = false){
-    getFromLocalStorage();
-    let desktopContainer = document.getElementById('desktop_basket_container');
-    desktopContainer.innerHTML = '';
-
-    for(let basketIndex = 0; basketIndex < basketDishes.length; basketIndex++){
-        desktopContainer.innerHTML += getDesktopBasketDishesTemplate(basketIndex);
-    }
-    if(basketDishes.length > 0){
-        let subtotalValue = calculateSubtotal();
-
-        let subtotalNumber = parseFloat(subtotalValue.replace(',', '.')) || 0;
-        desktopContainer.innerHTML += getBasketTotal(subtotalValue, formatPrice(subtotalNumber + 5));
-    } else if(!suppressPlaceholder){
-        desktopContainer.innerHTML += getDesktopPlaceholder();
-    }
-}
-
-function renderBasketDishesMobile(suppressPlaceholder  = false){
-    getFromLocalStorage();
-    let mobileContainer = document.getElementById('mobile_basket_container');
-    mobileContainer.innerHTML = '';
-
-    for (let basketIndex = 0; basketIndex < basketDishes.length; basketIndex++){
-        mobileContainer.innerHTML += getMobileBasketDishesTemplate(basketIndex);
-    }
-
-    if(basketDishes.length > 0){
-        let subtotalValue = calculateSubtotal();
-        let subtotalNumber = parseFloat(subtotalValue.replace(',', '.')) || 0;
-        mobileContainer.innerHTML += getBasketTotal(subtotalValue, formatPrice(subtotalNumber + 5));
-    } else if(!suppressPlaceholder){
-        mobileContainer.innerHTML += getMobilePlaceholder();
-    }
-}
-
-function getFromLocalStorage(){
-    let savedSelectedDish = JSON.parse(localStorage.getItem('selectedDishes') || '[]');
-    basketDishes = savedSelectedDish;
-    return savedSelectedDish;
-}
-
-function saveToLocalStorage(basketItem){
-    localStorage.setItem('selectedDishes', JSON.stringify(basketItem));
-    basketDishes = basketItem;
-}
-
-function moveDishesToBasket(category, index){
-    let selectedDish = {...dishes[category][index]};
-    let savedSelectedDish = getFromLocalStorage();
-    let basketIndex = savedSelectedDish.findIndex(dish => dish.name === selectedDish.name);
-
-    if(basketIndex === -1){
-        selectedDish.quantity = 1;
-        selectedDish.totalPrice = parseFloat(selectedDish.price);
-        selectedDish.dishAmount = 1;
-        savedSelectedDish.push(selectedDish);
-        localStorage.setItem('selectedDishes', JSON.stringify(savedSelectedDish));
+    if (basketIndex !== -1) {
+        basket[basketIndex].amount = Number(basket[basketIndex].amount || 0) + 1;
     } else {
-        addDishAmount(basketIndex);
+        basket.push({ name: dish.name, price: dish.price, amount: 1 });
     }
-    renderBasketDishes();
+    saveBasket();
+    refreshBasket();
 }
 
-function removeDish(basketIndex){
-    let basketItem = JSON.parse(localStorage.getItem('selectedDishes') || '[]') ;
-    basketItem.splice(basketIndex, 1);
-
-    localStorage.setItem('selectedDishes', JSON.stringify(basketItem));
-
-    let separationBar = document.getElementById('separation_bar');
-    let totalAmountTable = document.getElementById('amount_table');
-    if(basketItem.length === 0) {
-        if(separationBar) separationBar.classList.add('d-none');
-        if(totalAmountTable) totalAmountTable.classList.add('d-none');
-    } 
-    renderBasketDishes();
+function decreaseAmount(indexDishes) {
+    if (!basket[indexDishes]) return;
+    const current = Number(basket[indexDishes].amount || 0);
+    basket[indexDishes].amount = Math.max(0, current - 1);
+    if (basket[indexDishes].amount === 0) {
+        basket.splice(indexDishes, 1);
+    }
+    saveBasket();
+    refreshBasket();
 }
 
-function addDishAmount(basketIndex){
-    if(window.innerWidth < 750){
-        addDishAmountPC(basketIndex);
-    } else {
-        addDishAmountMobile(basketIndex);
-    }
+function increaseAmount(indexDishes) {
+    if (!basket[indexDishes]) return;
+    basket[indexDishes].amount = Number(basket[indexDishes].amount || 0) + 1;
+    saveBasket();
+    refreshBasket();
 }
 
-function addDishAmountPC(basketIndex){
-    let basketItem = getFromLocalStorage();
-    if(basketItem[basketIndex]){
-        basketItem[basketIndex].dishAmount = (basketItem[basketIndex].dishAmount || 1) + 1;
-    }
-
-    saveToLocalStorage(basketItem);
-    updatePricePerDish(basketIndex);
-    renderBasketDishes();
+function deleteDish(indexDishes) {
+    basket.splice(indexDishes, 1);
+    saveBasket();
+    refreshBasket();
 }
 
-function addDishAmountMobile(basketIndex){
-    let basketItem = getFromLocalStorage();
-    if(basketItem[basketIndex]){
-        basketItem[basketIndex].dishAmount = (basketItem[basketIndex].dishAmount || 1) + 1;
+function refreshBasket() {
+    if (orderContainerRef) orderContainerRef.innerHTML = "";
+    if (orderContainerDialogRef) orderContainerDialogRef.innerHTML = "";
+    let totalItems = 0;
+    for (let i = 0; i < basket.length; i++) {
+        if (basket[i].amount > 0) {
+            totalItems += basket[i].amount;
+            const itemHTML = basketData(basket[i].name, basket[i].price, basket[i].amount, i);
+            if (orderContainerRef) orderContainerRef.innerHTML += itemHTML;
+            if (orderContainerDialogRef) orderContainerDialogRef.innerHTML += itemHTML;
+        }
     }
-
-    saveToLocalStorage(basketItem);
-    updatePricePerDish(basketIndex);
-    renderBasketDishes();
+    updateCartCount();
+    subtotalCalc();
+    deliveryCalc();
+    totalCostCalc();
 }
 
-function substractDishAmountPC(basketIndex){
-    let basketItem = getFromLocalStorage();
-
-    if (basketItem[basketIndex].dishAmount <= 1) {
-        removeDish(basketIndex);
-        return;
-    }
-
-    basketItem[basketIndex].dishAmount -= 1;
-
-    saveToLocalStorage(basketItem);
-    updatePricePerDish(basketIndex);
-    renderBasketDishes();
-}
-
-function substractDishAmountMobile(basketIndex){
-    let basketItem = getFromLocalStorage();
-
-    if (basketItem[basketIndex].dishAmount <= 1){
-        removeDish(basketIndex);
-        return;
-    }
-
-    basketItem[basketIndex].dishAmount -= 1;
-
-    saveToLocalStorage(basketItem);
-    updatePricePerDish(basketIndex);
-    renderBasketDishes();
-}
-
-function updatePricePerDish(basketIndex){
-    let amount = basketDishes[basketIndex].dishAmount || 1;
-    let price = parseFloat(basketDishes[basketIndex].price) || 0;
-
-    let subtotal = amount * price;
-    basketDishes[basketIndex].totalPrice = subtotal;
-
-    let formattedSubtotal = formatPrice(subtotal);
-
-    let desktopPriceCell = document.getElementById(`price_pc_${basketIndex}`);
-    if (desktopPriceCell) {
-        desktopPriceCell.innerText = `${formattedSubtotal} €`;
-    }
-
-    let mobilePriceCell = document.getElementById(`price_mobile_${basketIndex}`);
-    if (mobilePriceCell) {
-        mobilePriceCell.innerText = `${formattedSubtotal} €`;
-    }
-
-    localStorage.setItem('selectedDishes', JSON.stringify(basketDishes));
-}
-
-function calculateSubtotal(){
+function subtotalCalc() {
     let subtotal = 0;
-
-    for(let basketIndex=0; basketIndex < basketDishes.length; basketIndex++){
-         let dish = basketDishes[basketIndex];
-        
-        if (dish.totalPrice !== undefined) {
-            subtotal += parseFloat(dish.totalPrice) || 0;
-        }
+    for (let i = 0; i < basket.length; i++) {
+        const amt = Number(basket[i].amount || 0);
+        const price = Number(basket[i].price || 0);
+        subtotal += amt * price;
     }
-    return formatPrice(subtotal);
+    const formatted = subtotal.toFixed(2).replace(".", ",") + " €";
+    if (subtotalRef) subtotalRef.innerHTML = formatted;
+    if (subtotalOverlayRef) subtotalOverlayRef.innerHTML = formatted;
 }
 
-function calculateTotalPrice(price, quantity = 1){
-    let total = parseFloat(price) * quantity;
-    if(isNaN(total)) total = 0;
-    return formatPrice(total);
+function deliveryCalc() {
+    const delivery = (switchBoxRef && switchBoxRef.checked) || (switchBoxOverlayRef && switchBoxOverlayRef.checked);
+    const text = delivery ? "+4,95 €" : "0,00 €";
+    if (deliveryRef) deliveryRef.innerHTML = text;
+    if (deliveryOverlayRef) deliveryOverlayRef.innerHTML = text;
+    totalCostCalc();
 }
 
-function sendUserNotificationPC(){
-   let selectedDishes = getFromLocalStorage();
-   let desktopContainer = document.getElementById('desktop_basket_container');
+function totalCostCalc() {
+    let subtotal = 0;
+    if (subtotalRef) {
+        subtotal = Number(subtotalRef.innerText.replace(/[^\d,\.]/g, '').replace(",", "."));
+    }
+    const deliveryCost = (switchBoxRef && switchBoxRef.checked) || (switchBoxOverlayRef && switchBoxOverlayRef.checked) ? 4.95 : 0;
+    const total = subtotal + deliveryCost;
+    const formatted = total.toFixed(2).replace(".", ",") + " €";
+    if (totalCostRef) totalCostRef.innerHTML = formatted;
+    if (totalCostOverlayRef) totalCostOverlayRef.innerHTML = formatted;
+}
 
-    if(selectedDishes.length === 0){
-        desktopContainer.innerHTML = getDesktopPlaceholder();
+function orderAndEmptyBasket() {
+    let message = "";
+    if (basket.length === 0 || basket.every(item => item.amount === 0)) {
+        message = "Keinen Hunger? Dein Warenkorb ist noch leer!";
     } else {
-        selectedDishes = [];
-        saveToLocalStorage(selectedDishes);
-        renderBasketDishes(true);
-        desktopContainer.innerHTML += notificationTemplate();
+        message = `
+            <p>Deine Testbestellung ist eingegangen!</p>
+            <img src="./assets/img/koch.gif" alt="Koch jubelt" style="width:240px; margin-top:10px;">
+        `;
+        basket.length = 0;
+        saveBasket();
+        switchBoxCheck();
+        refreshBasket();
+    }
+    if (orderMessageRef) {
+        orderMessageRef.classList.remove("hidden");
+        orderMessageRef.innerHTML = message;
+    }
+    if (orderMessageOverlayRef) {
+        orderMessageOverlayRef.classList.remove("hidden");
+        orderMessageOverlayRef.innerHTML = message;
+    }
+    orderMessageDisappear();
+}
+
+function orderMessageDisappear() {
+    setTimeout(() => {
+        if (orderMessageRef) orderMessageRef.classList.add("hidden");
+        if (orderMessageOverlayRef) orderMessageOverlayRef.classList.add("hidden");
+    }, 3000);
+}
+
+function switchBoxCheck() {
+    if ((switchBoxRef && switchBoxRef.checked) || (switchBoxOverlayRef && switchBoxOverlayRef.checked)) {
+        if (switchBoxRef) switchBoxRef.checked = false;
+        if (switchBoxOverlayRef) switchBoxOverlayRef.checked = false;
+        deliveryCalc();
     }
 }
 
-function sendUserNotificationMobile(){
-    let selectedDishes = getFromLocalStorage();
-    let mobileBasketContainer = document.getElementById('mobile_basket_container');
+function toggleOverlay() {
+    if (overlayRef) overlayRef.classList.toggle("d_none");
+}
 
-    if(selectedDishes.length === 0){
-        mobileBasketContainer.innerHTML = getMobilePlaceholder();
-    } else {
-        selectedDishes = [];
-        saveToLocalStorage(selectedDishes);
-        renderBasketDishes(true);
-        mobileBasketContainer.innerHTML += notificationTemplate();
+function eventBubbling(event) {
+    event.stopPropagation();
+}
+
+function getTotalItems() {
+    let sum = 0;
+    for (let i = 0; i < basket.length; i++) {
+        sum += Number(basket[i].amount || 0);
     }
+    return sum;
+}
+
+function updateCartCount() {
+    const count = getTotalItems();
+    if (overlayCountRef) overlayCountRef.innerText = count;
 }

@@ -1,0 +1,58 @@
+@media (max-width: 1068px) {
+    .titleContainer {
+        padding-top: 48px;
+    }
+}
+
+@media (max-width: 890px) {
+    .basket_box {
+        display: none;
+    }
+
+    .mainContent {
+        width: 100%;
+    }
+
+    .resp_basket_box {
+        display: inline;
+        padding: 12px 0;
+        margin: 12px 24px;
+    }
+}
+
+@media (max-width: 900px) {
+    #cartIcon {
+        display: block;
+    }
+
+    #desktopBasket {
+        display: none;
+    }
+}
+
+@media (min-width: 901px) {
+    #overlay {
+        display: none !important;
+    }
+}
+
+@media (max-width: 560px) {
+
+    .menuBarContainer,
+    .footer-content {
+        flex-direction: column;
+    }
+
+}
+
+@media (max-width: 430px) {
+    .category-name {
+        font-size: 32px;
+    }
+
+    .basketButton {
+        width: 100%;
+        height: 52px;
+        font-size: 24px;
+    }
+}

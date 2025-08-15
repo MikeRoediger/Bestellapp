@@ -1,96 +1,159 @@
 <!DOCTYPE html>
 <html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bestellapp</title>
-    <link rel="icon" href="./assets/img/favicon-32x32.png" />
-    <link rel="stylesheet" href="./styles/global.css" />
-    <link rel="stylesheet" href="styles.css" />
+
+    <link rel="shortcut icon" href="./assets/img/favicon-32x32.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./styles/assets.css">
+    <link rel="stylesheet" href="./styles/basket.css">
     <link rel="stylesheet" href="./styles/fonts.css">
-  </head>
-  <body id="body" onload="renderDishes()">
-    <header>
-      <div class="header-content">
-        <div class="logo-text">
-          <img src="./assets/img/Bestell App- Logo.svg" alt="Bestellapp Logo" />
-        </div>
-        <img
-          id="shopping_bag"
-          class="shopping-bag"
-          src="./assets/img/shopping-basket-green.svg"
-          alt="Einkaufswagen"
-        />
-      </div>
-    </header>
-    <main>
-      <div class="main-content">
-        <div class="hero1"></div>
-        <img
-          class="round-img"
-          src="./assets/img/grilling-308914.svg"
-          alt="Eine Chefmuetze"
-        />
-        <h1>Mike's BBQ</h1>
-        <p class="rating">Bewertung (4.9 von 5 Sternen)</p>
-        <section class="food-selection">
-          <a href="#mainDishes">Hauptgerichte</a>
-          <a href="#sideDishes">Beilagen</a>
-          <a href="#desserts">Nachspeisen</a>
-        </section>
-        <div class="hero2"></div>
-        <section id="dishes_container" class="main-dishes"></section>
-        <section id="mobile_basket_overlay" class="basket-mobile-overlay">
-          <h2>Warenkorb</h2>
-          <div id="mobile_basket_container" class="mobile-basket-content">
-            <div id="mobile_basket_placeholder" class="order-placeholder">
-              <p>
-                Wähle Deine Gerichte aus der Karte und stelle Dir Dein Menü zusammen.
-              </p>
-              <img
-                class="empty-bag"
-                src="./assets/img/empty-bag.png"
-                alt="Eine leere Einkaufstasche"
-              />
+    <link rel="stylesheet" href="./styles/global.css">
+    <link rel="stylesheet" href="./styles/mobile.css">
+</head>
+
+<body onload="init()">
+    <div class="wrapper">
+        <header id="header" class="header">
+            <div class="headerContainer">
+                <a href="index.html"><img href="index.html" src="./assets/img/Logo.png" alt="Logo"></a>
             </div>
-          </div>
-          <div id="overlay_buttons" class="overlay-buttons">
-            <button id="close_overlay_btn" class="inner-overlay-btn">ZURÜCK ZUR KARTE</button>
-            <button onclick="sendUserNotificationMobile()" class="inner-basket-btn">Menü Bestellen</button>
-          </div>
-        </section>
-        <button id="toggle_overlay_btn" class="mobile-basket-btn">
-          Warenkorb
-        </button>
-      </div>
-      <aside class="basket">
-        <h2>Warenkorb</h2>
-        <div id="desktop_basket_container" class="basket-content">
-          <div id="basket_placeholder" class="order-placeholder">
-            <p>Wähle Deine Gerichte aus der Karte und stelle Dir Dein Menü zusammen.</p>
-            <img
-              class="empty-bag"
-              src="./assets/img/empty-bag.png"
-              alt="Eine leere Einkaufstasche"
-            />
-          </div>
+    </div>
+    </header>
+
+    <main id="mainContent">
+        <div class="allContainer">
+            <div class="mainContent">
+                <div>
+                    <img class="main_img" src="./assets/img/fire-1680614_640.jpg" alt="titleImage">
+                    <div class="titleContainer">
+                        <h1>Mike's BBQ</h1>
+                        <span class="rating">Bewertung (4,8 von 5 Sternen)</span>
+                        <img class="overlay_img" src="./assets/img/grilling-308914.svg" alt="overlayImage">
+                    </div>
+                </div>
+                <div>
+                    <div class="menuBarContainer">
+                        <a href="#mainDishContent">Hauptgerichte</a>
+                        <a href="#sideDishContent">Beilagen</a>
+                        <a href="#dessertDishContent">Desserts</a>
+                    </div>
+                </div>
+                <div>
+                    <div class="category-name" id="mainDishContent">
+                        <img class="foodImg" src="./assets/img/kohle_2704657_1280.jpg" alt="Hauptgerichte">
+                        <a>Hauptgerichte</a>
+                    </div>
+                </div>
+                <div id="mainDishDishContent"></div>
+                <div>
+                    <div class="category-name" id="sideDishContent">
+                        <img class="foodImg" src="./assets/img/potato-wedges-6323211_1920.jpg" alt="Beilagen">
+                        <a>Beilagen</a>
+                    </div>
+                </div>
+                <div id="sideDishDishContent"></div>
+                <div>
+                    <div class="category-name" id="dessertDishContent">
+                        <img class="foodImg" src="./assets/img/apple-pie-5545715_1920.jpg" alt="Desserts">
+                        <a>Desserts</a>
+                    </div>
+                </div>
+                <div id="dessertDishDishContent"></div>
+                <div id="resp_basket" class="resp_basket_box">
+                    <div>
+                        <button class="basketButton" onclick="toggleOverlay()"><span id="cartCountOverlay">0</span>
+                            Gerichte im 🛒</button>
+                    </div>
+                </div>
+            </div>
+            <div class="basket_box">
+                <div class="basketContainer">
+                    <span class="basketTitle">Warenkorb</span>
+                    <div class="orderCostContainer">
+                        <div class="orderContainer" id="orderContainer"></div>
+                    </div>
+                    <div class="costSection">
+                        <div class="switchContainer">
+                            <span>Liefern lassen</span>
+                            <label class="switch">
+                                <input type="checkbox" id="switchBox" onchange="deliveryCalc()">
+                                <span class="pickup round"></span>
+                            </label>
+                        </div>
+                        <div class="line"></div>
+                        <div class="costContainer">
+                            <div class="costSubtotalContainer">
+                                <div>Zwischensumme</div>
+                                <div id="subtotalCost">0,00 €</div>
+                            </div>
+                            <div class="costSubtotalContainer">
+                                <div>Lieferkosten</div>
+                                <div id="deliveryCost">0,00 €</div>
+                            </div>
+                        </div>
+                        <div class="totalCostContainer">
+                            <div>Gesamt</div>
+                            <div id="totalCost">0,00 €</div>
+                        </div>
+                        <div class="line"></div>
+                        <button class="orderButton" onclick="orderAndEmptyBasket()">Jetzt bestellen</button>
+                        <div class="orderMessage hidden" id="orderMessage"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <button id="order_btn_pc" onclick="sendUserNotificationPC()" class="basket-btn">
-          Menü Bestellen
-        </button>
-      </aside>
+        <div id="overlay" class="overlay d_none" onclick="toggleOverlay()">
+            <div class="dialogWindow" onclick="eventBubbling(event)">
+                <button class="basketButtonDialog" onclick="toggleOverlay()">Warenkorb</button>
+                <div class="basketContainer">
+                    <div class="orderCostContainer">
+                        <div class="orderContainer" id="orderContainerDialog"></div>
+                        <div class="line"></div>
+                        <div class="switchContainer">
+                            <span>Liefern lassen</span>
+                            <label class="switch">
+                                <input type="checkbox" id="switchBoxOverlay" onchange="deliveryCalc()">
+                                <span class="pickup round"></span>
+                            </label>
+                        </div>
+                        <div class="line"></div>
+                        <div class="costContainer">
+                            <div class="costSubtotalContainer">
+                                <div>Zwischensumme</div>
+                                <div id="subtotalCostOverlay">0,00 €</div>
+                            </div>
+                            <div class="costSubtotalContainer">
+                                <div>Lieferkosten</div>
+                                <div id="deliveryCostOverlay">0,00 €</div>
+                            </div>
+                        </div>
+                        <div class="totalCostContainer">
+                            <div>Gesamt</div>
+                            <div id="totalCostOverlay">0,00 €</div>
+                        </div>
+                        <div class="line"></div>
+                        <button class="orderButton" onclick="orderAndEmptyBasket()">Jetzt bestellen</button>
+                        <div class="orderMessage hidden" id="orderMessageOverlay"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
     <footer>
-    <div class="footer-content">
-      <a href="index.html">© 2025 Bestellapp</a>
-      <a href="impressum.html" aria-label="Impressum">Impressum</a>
-      <a href="datenschutz.html" aria-label="Datenschutz">Datenschutz</a>
+        <div class="footer-content">
+            <a href="index.html">© 2025 Bestellapp</a>
+            <a href="impressum.html" aria-label="Impressum">Impressum</a>
+            <a href="datenschutz.html" aria-label="Datenschutz">Datenschutz</a>
+        </div>
+    </footer>
     </div>
-  </footer>
-    <script src="./scripts/eventListeners.js"></script>
     <script src="./scripts/database.js"></script>
-    <script src="./scripts/templates.js"></script>
-    <script src="./script.js"></script>
-  </body>
-</html>
+    <script src="./scripts/template.js"></script>
+    <script src="script.js"></script>
+</body>
 
+</html>
