@@ -1,4 +1,4 @@
-// Konstanten für DOM-Elemente
+
 const orderContainerRef = document.getElementById("orderContainer");
 const orderContainerDialogRef = document.getElementById("orderContainerDialog");
 const subtotalRef = document.getElementById("subtotalCost");
@@ -50,8 +50,7 @@ function addToBasket(category, indexDishes) {
         if (basket[i].name === dish.name) {
             basketIndex = i;
             break;
-        }
-    }
+        }}
     if (basketIndex !== -1) {
         basket[basketIndex].amount = Number(basket[basketIndex].amount || 0) + 1;
     } else {
@@ -133,31 +132,6 @@ function totalCostCalc() {
     const formatted = total.toFixed(2).replace(".", ",") + " €";
     if (totalCostRef) totalCostRef.innerHTML = formatted;
     if (totalCostOverlayRef) totalCostOverlayRef.innerHTML = formatted;
-}
-
-function orderAndEmptyBasket() {
-    let message = "";
-    if (basket.length === 0 || basket.every(item => item.amount === 0)) {
-        message = "Keinen Hunger? Dein Warenkorb ist noch leer!";
-    } else {
-        message = `
-            <p>Deine Testbestellung ist eingegangen!</p>
-            <img src="./assets/img/koch.gif" alt="Koch jubelt" style="width:240px; margin-top:10px;">
-        `;
-        basket.length = 0;
-        saveBasket();
-        switchBoxCheck();
-        refreshBasket();
-    }
-    if (orderMessageRef) {
-        orderMessageRef.classList.remove("hidden");
-        orderMessageRef.innerHTML = message;
-    }
-    if (orderMessageOverlayRef) {
-        orderMessageOverlayRef.classList.remove("hidden");
-        orderMessageOverlayRef.innerHTML = message;
-    }
-    orderMessageDisappear();
 }
 
 function orderMessageDisappear() {
